@@ -19,16 +19,17 @@ OUTPUT_DIR.mkdir(exist_ok=True)
 
 
 def clear_directory(directory: Path):
-    """Delete all files in a directory."""
-
     for file in directory.iterdir():
-        if file.is_file():
-            try:
-                file.unlink()
-            except Exception:
-                # Ignore files currently in use
-                pass
+        if not file.is_file():
+            continue
 
+        if file.name == ".gitkeep":
+            continue
+
+        try:
+            file.unlink()
+        except Exception:
+            pass
 
 @app.route("/")
 def index():
