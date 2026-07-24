@@ -1,0 +1,11 @@
+# Python virtual environments
+.venv/
+
+# Python cache
+**/__pycache__/
+
+# Ignore all Word documents
+*.docx
+
+# Ignore all PDF files
+*.pdf
