@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Odia Akruti Sarala to Unicode Converter</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            margin: 0;
+            background: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            width: 450px;
+            background: white;
+            padding: 35px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            margin-top: 0;
+            font-size: 24px;
+        }
+
+        p {
+            color: #555;
+            margin-bottom: 30px;
+        }
+
+        input[type=file] {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        #status {
+            margin-top: 25px;
+            font-weight: bold;
+            min-height: 24px;
+        }
+
+        #downloadSection {
+            margin-top: 20px;
+            display: none;
+        }
+
+        #downloadBtn {
+            display: inline-block;
+            text-decoration: none;
+            background: #0078d4;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 6px;
+        }
+
+        #downloadBtn:hover {
+            background: #005fa3;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>Odia Akruti Sarala to Unicode Converter</h1>
+
+        <p>
+            Upload an Akruti Sarala PDF or DOCX document and convert it to Unicode Odia.
+        </p>
+
+        <form id="uploadForm">
+
+            <input
+                type="file"
+                id="file"
+                name="file"
+                accept=".pdf,.docx"
+                required>
+
+            <button id="convertBtn" type="submit">
+                Convert Document
+            </button>
+
+        </form>
+
+        <div id="status"></div>
+
+        <div id="downloadSection">
+            <a id="downloadBtn" href="#">
+                Download Document
+            </a>
+        </div>
+
+    </div>
+
+    <script>
+
+        const form = document.getElementById("uploadForm");
+        const fileInput = document.getElementById("file");
+        const convertBtn = document.getElementById("convertBtn");
+        const status = document.getElementById("status");
+        const downloadSection = document.getElementById("downloadSection");
+        const downloadBtn = document.getElementById("downloadBtn");
+
+        form.addEventListener("submit", async (e) => {
+
+            e.preventDefault();
+
+            downloadSection.style.display = "none";
+
+            convertBtn.disabled = true;
+            convertBtn.textContent = "Converting...";
+
+            status.textContent = "Converting document. Please wait...";
+
+            const formData = new FormData(form);
+
+            try {
+
+                const response = await fetch("/upload", {
+                    method: "POST",
+                    body: formData
+                });
+
+                const result = await response.json();
+
+                if (!response.ok || !result.success) {
+                    throw new Error(result.message);
+                }
+
+                status.textContent = "✅ Conversion completed successfully.";
+
+                downloadBtn.href = result.download_url;
+
+                downloadSection.style.display = "block";
+
+            }
+            catch (error) {
+
+                status.textContent = "❌ " + error.message;
+
+            }
+            finally {
+
+                convertBtn.disabled = false;
+                convertBtn.textContent = "Convert Document";
+
+            }
+
+        });
+
+        downloadBtn.addEventListener("click", () => {
+
+            status.textContent = "⬇️ Downloading document...";
+
+            setTimeout(() => {
+
+                downloadSection.style.display = "none";
+
+                form.reset();
+
+                fileInput.value = "";
+
+                status.textContent = "✅ Ready for another conversion.";
+
+            }, 1000);
+
+        });
+
+    </script>
+
+</body>
+
+</html>

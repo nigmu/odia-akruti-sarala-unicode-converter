@@ -117,9 +117,13 @@ def main(argv: list[str] | None = None) -> int:
         exit_code = 0
         for path_str in args.paths:
             input_path = Path(path_str)
+
+            # If only a filename is provided, assume it's in the input folder
+            if not input_path.is_absolute() and input_path.parent == Path("."):
+                input_path = INPUT_DIR / input_path
             try:
                 process_file(input_path, args.output_dir, verbose=verbose)
-            except (UnsupportedFormatError, FileNotFoundError, OSError) as exc:
+            except Exception as exc:
                 print(f"Error processing {input_path}: {exc}", file=sys.stderr)
                 exit_code = 1
         return exit_code
