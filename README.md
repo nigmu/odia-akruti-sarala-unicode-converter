@@ -10,7 +10,22 @@ Unlike the original browser-based converter, this project automates the complete
 
 ---
 
+---
+
+# Online Converters
+
+You can use the following online tools without running the project locally:
+
+1. **PDF/DOCX → Unicode DOCX**
+  **[Document Converter](https://odia-converter.nigmulabs.xyz/)**
+2. **Text → Text (Akruti Sarala → Unicode)**
+  **[Text Converter](https://shorturl.at/LiVQ2)**
+
+
+
 # How to Use
+
+
 
 ## 1. Clone the repository
 
@@ -18,6 +33,8 @@ Unlike the original browser-based converter, this project automates the complete
 git clone https://github.com/nigmu/odia-akruti-sarala-unicode-converter.git
 cd odia-akruti-sarala-unicode-converter
 ```
+
+
 
 ## 2. Create a virtual environment
 
